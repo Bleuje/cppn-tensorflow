@@ -177,7 +177,7 @@ class CPPN():
     space.
     """
     if z is None:
-        z = np.random.uniform(-1.0, 1.0, size=(self.batch_size, self.z_dim)).astype(np.float32)
+        z = 0.1*np.random.uniform(-1.0, 1.0, size=(self.batch_size, self.z_dim)).astype(np.float32)
     # Note: This maps to mean of distribution, we could alternatively
     # sample from Gaussian distribution
 
