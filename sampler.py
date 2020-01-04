@@ -46,7 +46,7 @@ class Sampler():
   def generate_z(self):
     z = np.random.uniform(-1.0, 1.0, size=(1, self.cppn.z_dim)).astype(np.float32)
     return z
-  def generate(self, z=None, x_dim=1080, y_dim=1960, scale = 10.0):
+  def generate(self, z=None, x_dim=2000, y_dim=2000, scale = 10.0):
     if z is None:
       z = self.generate_z()
     else:
