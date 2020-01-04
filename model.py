@@ -74,13 +74,13 @@ class CPPN():
     n_points = x_dim * y_dim
     x_range = scale*(np.arange(x_dim)-(x_dim-1)/2.0)/(x_dim-1)/0.5
     y_range = scale*(np.arange(y_dim)-(y_dim-1)/2.0)/(y_dim-1)/0.5
-    x2_range = 2*(np.sin(0.5*x_range) - np.cos(0.3*y_range))
-    y2_range = 2*(np.sin(0.7*x_range) - np.cos(0.8*y_range))
+    x2_range = 3*(np.sin(0.5*x_range) - np.cos(0.3*y_range))
+    y2_range = 3*(np.sin(0.7*x_range) - np.cos(0.8*y_range))
     x_mat = np.matmul(np.ones((y_dim, 1)), x_range.reshape((1, x_dim)))
     y_mat = np.matmul(y_range.reshape((y_dim, 1)), np.ones((1, x_dim)))
     x2_mat = np.matmul(np.ones((y_dim, 1)), x2_range.reshape((1, x_dim)))
     y2_mat = np.matmul(y2_range.reshape((y_dim, 1)), np.ones((1, x_dim)))
-    r_mat = np.sqrt(x_mat*x_mat + y_mat*y_mat)
+    r_mat = np.min(scale/2,np.sqrt(x_mat*x_mat + y_mat*y_mat))
     x_mat = np.tile(x_mat.flatten(), self.batch_size).reshape(self.batch_size, n_points, 1)
     y_mat = np.tile(y_mat.flatten(), self.batch_size).reshape(self.batch_size, n_points, 1)
     x2_mat = np.tile(x2_mat.flatten(), self.batch_size).reshape(self.batch_size, n_points, 1)
