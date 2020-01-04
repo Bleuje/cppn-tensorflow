@@ -26,7 +26,7 @@ class CPPN():
     self.batch_size = batch_size
     self.net_size = net_size
     x_dim = 1024
-    y_dim = 1025
+    y_dim = 1024
     self.x_dim = x_dim
     self.y_dim = y_dim
     self.scale = scale
