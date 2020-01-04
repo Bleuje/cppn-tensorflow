@@ -110,22 +110,22 @@ class CPPN():
     ###
     ### Example: 3 layers of tanh() layers, with net_size = 32 activations/layer
     ###
-    '''
+    #'''
     H = tf.nn.tanh(U)
-    for i in range(3):
+    for i in range(8):
       H = tf.nn.tanh(fully_connected(H, net_size, 'g_tanh_'+str(i)))
     output = tf.sigmoid(fully_connected(H, self.c_dim, 'g_final'))
-   '''
+    #'''
 
     ###
     ### Similar to example above, but instead the output is
     ### a weird function rather than just the sigmoid
-    #'''
+    '''
     H = tf.nn.tanh(U)
     for i in range(3):
       H = tf.nn.tanh(fully_connected(H, net_size, 'g_tanh_'+str(i)))
     output = tf.sqrt(1.0-tf.abs(tf.tanh(fully_connected(H, self.c_dim, 'g_final'))))
-    #'''
+    '''
 
     ###
     ### Example: mixing softplus and tanh layers, with net_size = 32 activations/layer
