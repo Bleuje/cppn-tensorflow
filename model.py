@@ -74,8 +74,8 @@ class CPPN():
     n_points = x_dim * y_dim
     x_range = scale*(np.arange(x_dim)-(x_dim-1)/2.0)/(x_dim-1)/0.5
     y_range = scale*(np.arange(y_dim)-(y_dim-1)/2.0)/(y_dim-1)/0.5
-    x2_range = 2*(sin(5*x_range) - cos(3*y_range))
-    y2_range = 2*(sin(7*x_range) - cos(8*y_range))
+    x2_range = 2*(np.sin(5*x_range) - np.cos(3*y_range))
+    y2_range = 2*(np.sin(7*x_range) - np.cos(8*y_range))
     x_mat = np.matmul(np.ones((y_dim, 1)), x_range.reshape((1, x_dim)))
     y_mat = np.matmul(y_range.reshape((y_dim, 1)), np.ones((1, x_dim)))
     x2_mat = np.matmul(np.ones((y_dim, 1)), x2_range.reshape((1, x_dim)))
