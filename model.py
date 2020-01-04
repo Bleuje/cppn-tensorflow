@@ -112,7 +112,7 @@ class CPPN():
     ###
     #'''
     H = tf.nn.tanh(U)
-    for i in range(8):
+    for i in range(6):
       H = tf.nn.tanh(fully_connected(H, net_size, 'g_tanh_'+str(i)))
     output = tf.sigmoid(fully_connected(H, self.c_dim, 'g_final'))
     #'''
@@ -177,7 +177,7 @@ class CPPN():
     space.
     """
     if z is None:
-        z = 0.1*np.random.uniform(-1.0, 1.0, size=(self.batch_size, self.z_dim)).astype(np.float32)
+        z = np.random.uniform(-1.0, 1.0, size=(self.batch_size, self.z_dim)).astype(np.float32)
     # Note: This maps to mean of distribution, we could alternatively
     # sample from Gaussian distribution
 
