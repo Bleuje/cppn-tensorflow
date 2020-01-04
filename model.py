@@ -80,8 +80,6 @@ class CPPN():
     y_mat = np.matmul(y_range.reshape((y_dim, 1)), np.ones((1, x_dim)))
     x2_mat = np.matmul(np.ones((y_dim, 1)), x2_range.reshape((1, x_dim)))
     y2_mat = np.matmul(y2_range.reshape((y_dim, 1)), np.ones((1, x_dim)))
-    x_mat = 0*x_mat
-    y_mat = 0*y_mat
     r_mat = np.minimum(scale/2,np.sqrt(x_mat*x_mat + y_mat*y_mat))
     
     #'''
