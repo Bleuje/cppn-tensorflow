@@ -112,7 +112,7 @@ class Sampler():
     for i in range(total_frames):
       z = z1 + delta_z*float(i)
       images.append(self.to_image(self.generate(z, x_dim, y_dim, scale)))
-      print "processing image ", i
+      print("processing image ", i)
     durations = [duration1]+[duration]*n_frame+[duration2]
     if reverse == True: # go backwards in time back to the first state
       revImages = list(images)
@@ -120,5 +120,5 @@ class Sampler():
       revImages = revImages[1:]
       images = images+revImages
       durations = durations + [duration]*n_frame + [duration1]
-    print "writing gif file..."
+    print("writing gif file...")
     writeGif(filename, images, duration = durations)
