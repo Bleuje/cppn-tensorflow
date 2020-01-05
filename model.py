@@ -89,7 +89,7 @@ class CPPN():
     
     offset_mat = 1.1*r_mat
     
-    mr = 2.0;
+    mr = 0.75;
     
     cos_mat = mr*np.cos(2*math.pi*(time-offset_mat))
     sin_mat = mr*np.sin(2*math.pi*(time-offset_mat))
@@ -132,8 +132,8 @@ class CPPN():
         fully_connected(x_unroll, net_size, 'g_0_x', with_bias = False) + \
         fully_connected(y_unroll, net_size, 'g_0_y', with_bias = False) + \
         fully_connected(cos_unroll, net_size, 'g_0_cos', with_bias = False) + \
-        fully_connected(sin_unroll, net_size, 'g_0_sin', with_bias = False) + \
-        fully_connected(r_unroll, net_size, 'g_0_r', with_bias = False)
+        fully_connected(sin_unroll, net_size, 'g_0_sin', with_bias = False) #+ \
+        #fully_connected(r_unroll, net_size, 'g_0_r', with_bias = False)
         #fully_connected(x2_unroll, net_size, 'g_0_x2', with_bias = False) + \
         #fully_connected(y2_unroll, net_size, 'g_0_y2', with_bias = False) + \
 
@@ -147,7 +147,7 @@ class CPPN():
     ###
     #'''
     H = tf.nn.tanh(U)
-    for i in range(6):
+    for i in range(4):
       H = tf.nn.tanh(fully_connected(H, net_size, 'g_tanh_'+str(i)))
     output = tf.sigmoid(fully_connected(H, self.c_dim, 'g_final'))
     #'''
