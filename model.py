@@ -10,6 +10,7 @@ https://en.wikipedia.org/wiki/Compositional_pattern-producing_network
 import numpy as np
 import tensorflow as tf
 from ops import *
+import math
 
 class CPPN():
   def __init__(self, batch_size=1, z_dim = 32, c_dim = 1, scale = 8.0, net_size = 32):
@@ -39,7 +40,7 @@ class CPPN():
     n_points = x_dim * y_dim
     self.n_points = n_points
 
-    self.x_vec, self.y_vec, self.x2_vec, self.y2_vec, self.r_vec = self._coordinates(x_dim, y_dim, scale)
+    self.x_vec, self.y_vec, self.x2_vec, self.y2_vec, self.cos_vec, self.sin_vec, self.r_vec = self._coordinates(x_dim, y_dim, scale)
 
     # latent vector
     self.z = tf.placeholder(tf.float32, [self.batch_size, self.z_dim])
@@ -48,6 +49,8 @@ class CPPN():
     self.y = tf.placeholder(tf.float32, [self.batch_size, None, 1])
     self.x2 = tf.placeholder(tf.float32, [self.batch_size, None, 1])
     self.y2 = tf.placeholder(tf.float32, [self.batch_size, None, 1])
+    self.cos = tf.placeholder(tf.float32, [self.batch_size, None, 1])
+    self.sin = tf.placeholder(tf.float32, [self.batch_size, None, 1])
     self.r = tf.placeholder(tf.float32, [self.batch_size, None, 1])
 
     # builds the generator network
@@ -67,7 +70,7 @@ class CPPN():
     init = tf.initialize_variables(tf.trainable_variables())
     self.sess.run(init)
 
-  def _coordinates(self, x_dim = 32, y_dim = 32, scale = 1.0):
+  def _coordinates(self, x_dim = 32, y_dim = 32, scale = 1.0, time=0.):
     '''
     calculates and returns a vector of x and y coordintes, and corresponding radius from the centre of image.
     '''
@@ -84,17 +87,26 @@ class CPPN():
     #r_mat = np.minimum(scale/2,np.sqrt(x_mat*x_mat + y_mat*y_mat))
     r_mat = np.sqrt(x_mat*x_mat + y_mat*y_mat)
     
-    #'''
+    offset_mat = 0.25*r_mat
+    
+    mr = 1.5;
+    
+    cos_mat = mr*np.cos(2*math.pi*(time-offset_mat))
+    sin_mat = mr*np.sin(2*math.pi*(time-offset_mat))
+    
+    '''
     x_mat = 0*x_mat
     y_mat = 0*y_mat
-    #'''
+    '''
     
     x_mat = np.tile(x_mat.flatten(), self.batch_size).reshape(self.batch_size, n_points, 1)
     y_mat = np.tile(y_mat.flatten(), self.batch_size).reshape(self.batch_size, n_points, 1)
     x2_mat = np.tile(x2_mat.flatten(), self.batch_size).reshape(self.batch_size, n_points, 1)
     y2_mat = np.tile(y2_mat.flatten(), self.batch_size).reshape(self.batch_size, n_points, 1)
+    cos_mat = np.tile(cos_mat.flatten(), self.batch_size).reshape(self.batch_size, n_points, 1)
+    sin_mat = np.tile(sin_mat.flatten(), self.batch_size).reshape(self.batch_size, n_points, 1)
     r_mat = np.tile(r_mat.flatten(), self.batch_size).reshape(self.batch_size, n_points, 1)
-    return x_mat, y_mat, x2_mat, y2_mat, r_mat
+    return x_mat, y_mat, x2_mat, y2_mat, cos_mat, sin_mat, r_mat
 
   def generator(self, x_dim, y_dim, reuse = False):
 
@@ -189,7 +201,7 @@ class CPPN():
 
     return result
 
-  def generate(self, z=None, x_dim = 26, y_dim = 26, scale = 8.0):
+  def generate(self, z=None, x_dim = 26, y_dim = 26, scale = 8.0, time=0.):
     """ Generate data by sampling from latent space.
 
     If z is not None, data for this point in latent space is
@@ -202,8 +214,8 @@ class CPPN():
     # sample from Gaussian distribution
 
     G = self.generator(x_dim = x_dim, y_dim = y_dim, reuse = True)
-    x_vec, y_vec, x2_vec, y2_vec, r_vec = self._coordinates(x_dim, y_dim, scale = scale)
-    image = self.sess.run(G, feed_dict={self.z: z, self.x: x_vec, self.y: y_vec, self.x2: x2_vec, self.y2: y2_vec, self.r: r_vec})
+    x_vec, y_vec, x2_vec, y2_vec, cos_mat, sin_mat, r_vec = self._coordinates(x_dim, y_dim, scale = scale, time = time)
+    image = self.sess.run(G, feed_dict={self.z: z, self.x: x_vec, self.y: y_vec, self.x2: x2_vec, self.y2: y2_vec, self.cos: cos_vec, self.sin: sin_vec, self.r: r_vec})
     return image
 
   def close(self):
