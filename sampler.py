@@ -46,13 +46,13 @@ class Sampler():
   def generate_z(self):
     z = np.random.uniform(-1.0, 1.0, size=(1, self.cppn.z_dim)).astype(np.float32)
     return z
-  def generate(self, z=None, x_dim=2000, y_dim=2000, scale = 10.0):
+  def generate(self, z=None, x_dim=2000, y_dim=2000, scale = 10.0, time=0.):
     if z is None:
       z = self.generate_z()
     else:
       z = np.reshape(z, (1, self.cppn.z_dim))
     self.z = z
-    return self.cppn.generate(z, x_dim, y_dim, scale)[0]
+    return self.cppn.generate(z, x_dim, y_dim, scale, time)[0]
   def show_image(self, image_data):
     '''
     image_data is a tensor, in [height width depth]
@@ -79,6 +79,12 @@ class Sampler():
       img_data = np.array(img_data.reshape((y_dim, x_dim))*255.0, dtype=np.uint8)
     im = Image.fromarray(img_data)
     im.save(filename)
+  def save_manypng(self, z=None, x_dim=1000, y_dim=1000, scale = 3.0, nbframes=20):
+    for i in range(nbframes):
+        time = 1.0*i/nbframes
+        img_data = self.generate(z,x_dim,y_dim,scale,time)
+        print(i+1,"/",nbframes)
+        self.save_png(img_data,"fr"+str(i)+".png")
   def to_image(self, image_data):
     # convert to PIL.Image format from np array (0, 1)
     img_data = np.array(1-image_data)
