@@ -214,7 +214,7 @@ class CPPN():
     # sample from Gaussian distribution
 
     G = self.generator(x_dim = x_dim, y_dim = y_dim, reuse = True)
-    x_vec, y_vec, x2_vec, y2_vec, cos_mat, sin_mat, r_vec = self._coordinates(x_dim, y_dim, scale = scale, time = time)
+    x_vec, y_vec, x2_vec, y2_vec, cos_vec, sin_vec, r_vec = self._coordinates(x_dim, y_dim, scale = scale, time = time)
     image = self.sess.run(G, feed_dict={self.z: z, self.x: x_vec, self.y: y_vec, self.x2: x2_vec, self.y2: y2_vec, self.cos: cos_vec, self.sin: sin_vec, self.r: r_vec})
     return image
 
