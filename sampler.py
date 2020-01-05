@@ -80,6 +80,8 @@ class Sampler():
     im = Image.fromarray(img_data)
     im.save(filename)
   def save_manypng(self, z=None, x_dim=1000, y_dim=1000, scale = 3.0, nbframes=20):
+    if z is None:
+        z = self.generate_z()
     for i in range(nbframes):
         time = 1.0*i/nbframes
         img_data = self.generate(z,x_dim,y_dim,scale,time)

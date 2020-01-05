@@ -87,9 +87,9 @@ class CPPN():
     #r_mat = np.minimum(scale/2,np.sqrt(x_mat*x_mat + y_mat*y_mat))
     r_mat = np.sqrt(x_mat*x_mat + y_mat*y_mat)
     
-    offset_mat = 0.25*r_mat
+    offset_mat = 0.35*r_mat
     
-    mr = 1.5;
+    mr = 2.0;
     
     cos_mat = mr*np.cos(2*math.pi*(time-offset_mat))
     sin_mat = mr*np.sin(2*math.pi*(time-offset_mat))
