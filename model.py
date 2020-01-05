@@ -133,10 +133,9 @@ class CPPN():
         fully_connected(y_unroll, net_size, 'g_0_y', with_bias = False) + \
         fully_connected(cos_unroll, net_size, 'g_0_cos', with_bias = False) + \
         fully_connected(sin_unroll, net_size, 'g_0_sin', with_bias = False) + \
+        fully_connected(r_unroll, net_size, 'g_0_r', with_bias = False)
         #fully_connected(x2_unroll, net_size, 'g_0_x2', with_bias = False) + \
         #fully_connected(y2_unroll, net_size, 'g_0_y2', with_bias = False) + \
-        fully_connected(r_unroll, net_size, 'g_0_r', with_bias = False)
-
 
     '''
     Below are a bunch of examples of different CPPN configurations.
