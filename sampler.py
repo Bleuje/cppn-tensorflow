@@ -79,7 +79,7 @@ class Sampler():
       img_data = np.array(img_data.reshape((y_dim, x_dim))*255.0, dtype=np.uint8)
     im = Image.fromarray(img_data)
     im.save(filename)
-  def save_manypng(self, z=None, x_dim=1000, y_dim=1000, scale = 3.0, nbframes=20):
+  def save_manypng(self, z=None, x_dim=1000, y_dim=1000, scale = 8.0, nbframes=20):
     if z is None:
         z = self.generate_z()
     for i in range(nbframes):
